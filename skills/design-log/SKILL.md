@@ -35,6 +35,7 @@ These define a good entry. An entry that breaks them isn't a faithful record.
 - **Quotes verbatim, in quotation marks, attributed and dated.** `"I'd have to go click that tile, even though technically I shouldn't have to" — [name], 2026-05-04 critique.` Never silently paraphrase a person into your own words.
 - **If the exact wording isn't available, mark it `[paraphrased]`.** A labeled paraphrase is still queryable and can be back-filled with the real wording later; a paraphrase dressed as a quote can't be trusted and won't be caught.
 - **Values as the literal string.** `450ms cubic-bezier(0.34, 1.56, 0.64, 1)`, not "an appropriate curve." The raw token is what a later query needs.
+- **Date by when it happened, not when you log it.** Resolve "yesterday" and "the Tuesday critique" to actual calendar dates; a Thursday session logging Tuesday's critique dates the entry Tuesday. Dates are what the log sorts and reasons on later — a wrong one corrupts the timeline silently.
 - **One entry per decision — preserve the count.** Three decisions in one session are three entries, not one paragraph. Collapsing them into "several decisions about X" is the most common and most damaging flattening.
 - **Record, don't tidy.** Given a choice between the exact thing that was said and a cleaner summary of it, take the exact thing.
 
@@ -64,7 +65,7 @@ Write the entries, then report what went in and where — no approval step in be
 
 - If logs live in a dedicated folder (e.g. a `design-logs/` directory with one subfolder per project), look there and match the current project by name, treating `_`, `-`, and spaces as equivalent. Only if that's how the setup is organized.
 - **No filesystem?** In a chat interface with no files, the log is a document passed back and forth: the designer pastes in the current log, you return the updated version. Same discipline, different transport.
-- If several candidates exist, list them with last-modified dates and ask which. If none exists, offer to create one and ask: what project (one-line scope), where it lives, and any notes to seed it.
+- If several candidates exist, list them with last-modified dates and ask which. If none exists, offer to create one and ask: what project (one-line scope), where it lives, entry ordering (newest first or last), and any notes to seed it.
 
 Read the log fully if it exists — match its structure, voice, and date ordering.
 
@@ -76,7 +77,7 @@ Read the log fully if it exists — match its structure, voice, and date orderin
 
 ## Log structure
 
-Chronological at the top level, tagged within entries. Each entry begins with a date; newest at top or bottom is the designer's choice — stay consistent once chosen.
+Chronological at the top level, tagged within entries. Each entry begins with a date; newest at top or bottom is the designer's choice — default to newest-at-bottom when unspecified (appending is cheaper and safer than inserting at the head), and stay consistent once chosen.
 
 A typical entry:
 
@@ -102,11 +103,11 @@ The log doesn't need to be polished — **specific, dated, faithful, and complet
 
 Six months later, a good entry lets you (or a model reading the log) reconstruct: what was decided and why, what alternatives were rejected, who said what (attributed and dated), the path the design took, the specific values chosen, how AI was used, and what constraints shaped the work.
 
-Fails as *"we made several decisions about X."* Passes as: *"2026-05-04 — locked the toast slide-in: 450ms cubic-bezier(0.34, 1.56, 0.64, 1) spring entry, 220ms ease-in exit, 10s auto-dismiss. Reasoning: macOS-notification mental model — spring overshoot reads as physical, not mechanical. Considered a linear slide (rejected: reads as state change, not arrival). Engineering confirmed the timing budget was fine."*
+Fails as *"we made several decisions about X."* Passes as: *"2026-06-11 — projects empty state set to 'Nothing here yet. Create your first project.' Reasoning: first-run state, not a failed search, so 'No results found' was misleading. Rejected a bare 'Get started' button; [name]: 'that implies onboarding we never built.' Copy lives at i18n/en.json → projects.empty; eng confirmed it won't truncate at the 2-line mobile width."*
 
 ## Edge cases
 
-- **No log yet.** Offer to create; ask for scope, location, seed context.
+- **No log yet.** Offer to create; ask for scope, location, ordering, seed context.
 - **Multiple candidates.** Present with last-modified dates; ask which.
 - **Little material.** Say so and skip, rather than pad.
 - **Material contradicts the log.** Surface it — *"earlier this was X, now Y; update, or keep both?"* Both often belong; the arc is the point.

@@ -103,6 +103,12 @@ Two failure modes to avoid, both from the wrong document living inside this one:
 
 A dev can hand this file to their AI coding assistant as build context, so keep it **self-contained and unambiguous**: real names/paths, exact values, states and rules spelled out, fakes flagged. Anything left vague, the model will invent — the same precision that helps a human helps the AI. This is the use case worth optimizing for: "prototype + this doc → an agent builds the real thing" is likely why you're writing it.
 
+## Writing a new note
+
+The prototype is the source of truth — read it before you write. Even when the prototype was built in this very conversation, don't write from memory: open the entry points (the files, components, routes, or selectors each feature's `File:` line will name) and pull the real values, the state shape, which controls are wired and which are stubbed. Then ask the designer only for what the code can't reveal — the intent behind a choice, what's deliberately unhandled, what production thing each mock stands in for. A note written from memory instead of the code is exactly how you get the vague, unanchored spec this skill exists to prevent.
+
+Put a new doc at the repo root as `DEV-HANDOFF-NOTES.md` (or beside the prototype if there's no repo root), so the search order below finds it next time.
+
 ## Updating an existing note
 
 Most handoff work is updates, and the discipline is **reconcile, never append** — because this is a spec, not a record. The running prototype is the source of truth; when the doc and the code disagree, the code wins and the doc gets corrected.
@@ -117,7 +123,7 @@ For a large change, walk the sections a few at a time rather than dumping a full
 
 Works for any prototype, any stack, any (or no) design system — it captures whatever is actually in the prototype, so your own components, tokens, and conventions come through on their own. A single HTML file, a React app, a Framer or v0 export, SwiftUI — the shape is the same; only the "File:" anchors change.
 
-**Match your house style with an example.** Drop one of your own past handoffs into an `examples/` folder beside this file and mirror its shape. This is the easiest way to make the output look like *yours* without editing the skill — the model will follow the example's structure, section names, and level of detail.
+**Match your house style with an example.** Before writing, check for an `examples/` folder beside this skill; if one's there, mirror its structure, section names, and level of detail. That's the customization hook — a designer drops one of their own past handoffs into `examples/`, and every future note comes out shaped like theirs, no skill edits needed.
 
 ## Optional: Figma
 
