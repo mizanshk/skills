@@ -4,6 +4,8 @@ Two skills I use for design work, built for [Claude Code](https://claude.com/cla
 
 Most of what matters on a project never gets written down: why a value is what it is, what got tried and killed, which parts of the prototype are real and which are faked with mock data. It's all clear while you're in the work. It's gone a few months later, or the moment someone else has to build from it. These two skills catch that detail at the two points it's easiest to lose: while the work happens, and when it hands off to engineering.
 
+I wrote about the workflow behind these: [Build fast, forget faster](https://mizanshaikh.com/writing/build-fast-forget-faster).
+
 ## Install
 
 ```bash
