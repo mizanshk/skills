@@ -39,7 +39,7 @@
 - **Buffers are per page:** `Before event` and `After event`, each 0–120 minutes. A time that availability allows is still withheld when a buffer overlaps it.
 - **Minimum notice** is 0 minutes to 30 days. Times inside it aren't offered, including on today. ⟨confirm: whether minimum notice counts clock hours or the owner's available hours⟩
 - **Daily cap** is 1–20 or off. A date at its cap offers no times and reads as fully booked.
-- **Offered times step by the meeting length**, from the start of each range. A 45-minute meeting in `9:00–11:00` offers 9:00, 9:45, 10:15 — never a time that runs past the range.
+- **Offered times step by the meeting length**, from the start of each range. A 45-minute meeting in `9:00–11:00` offers 9:00 and 9:45 — never a time that runs past the range.
 - **Overrides are per date**, set in the editor's calendar: either replacement ranges, or unavailable. An override on a past date is kept but never consulted.
 
 ## Timezones
@@ -86,7 +86,7 @@ Three steps on one page.
 - **Step 1 — pick a date.** A month calendar with bookable dates enabled and everything else disabled; the first bookable date is preselected. `<` and `>` move by month; `>` is unavailable past the booking window.
 - **Step 2 — pick a time.** The chosen date's times as a list. **No times that day:** *"No times available on this date."* **No times in the whole month:** *"Nothing available this month."* + `Next month`.
 - **Step 3 — answer the questions.** Name and email first, then the page's own questions in their order. Required fields flag on submit, not on blur.
-- **The chosen time is held for 10 minutes** while the invitee fills the form. The remaining time is not shown. If it expires, submitting returns to step 2 with: *"That time was just booked. Pick another."*
+- **The chosen time is held for 10 minutes** while the invitee fills the form. The remaining time is not shown. If it expires and someone else has booked the time, submitting returns to step 2 with: *"That time was just booked. Pick another."* If the time is still free, submitting books it.
 - **A time taken by someone else disappears on the next step-2 view** rather than erroring.
 - **Switching timezone** re-renders every time shown and keeps the chosen time.
 - **A paused page** shows *"This page isn't taking bookings right now."* and nothing else. **A deleted page's link** shows the same generic not-found page as any bad link.
