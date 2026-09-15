@@ -28,13 +28,13 @@ Triggers on "log this", "update the design log", "document this decision".
 
 ### dev-handoff-notes
 
-Everything a developer needs to build the real product from a high-fidelity prototype: interactions, every state, logic and rules, the data shape, accessibility, and what's mocked versus real. Written in the developer's language and anchored to the actual components and values in the prototype.
+Notes a developer reads alongside a high-fidelity prototype while building the real product: the rules, states, edge cases, and exact copy that aren't obvious from clicking through it, what the prototype fakes, and what it doesn't build. Anything they can see at a glance, like layout, isn't in there.
 
-Where the log keeps history, this keeps what is. It describes the present and stays true to it: when the prototype changes, you rewrite the stale part instead of appending a note about the change. The section that earns its keep is mocked versus real, the line between where the prototype stops and production starts, each fake paired with what plugs in for it.
+Where the log keeps history, this keeps what is. It describes the present and stays true to it: when the prototype changes, you rewrite the stale part instead of appending a note about the change. It leaves out the reasons too. A bullet says `The default window is Last 30 days.` and ends there. Why it's 30 days belongs in the design log, and the code that sets it is already in the repo, so file paths, component names, and hex values stay out.
 
 It also works as build context for an AI coding assistant. The prototype plus this doc is close to what an agent needs to build the real thing.
 
-Triggers on "write up how this works for the devs", "handoff notes", "spec this for engineering".
+Triggers on "write the handoff", "update the handoff doc", "what does eng need to know about this".
 
 ## Why two
 
