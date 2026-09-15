@@ -34,7 +34,7 @@ Where the log keeps history, this keeps what is. It describes the present and st
 
 It also works as build context for an AI coding assistant. The prototype plus this doc is close to what an agent needs to build the real thing.
 
-There's a [finished example](skills/dev-handoff-notes/examples/promo-codes-DEV-HANDOFF-NOTES.md) for a promo codes feature. The skill copies the structure and level of detail of whatever sits in `examples/`, so you can swap in one of your own handoffs.
+There's a [finished example](skills/dev-handoff-notes/examples/booking-pages-DEV-HANDOFF-NOTES.md) for a scheduling app's booking pages. The skill copies the structure and level of detail of whatever sits in `examples/`, so you can swap in one of your own handoffs.
 
 Triggers on "write the handoff", "update the handoff doc", "what does eng need to know about this".
 
