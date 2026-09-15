@@ -1,130 +1,135 @@
 ---
 name: dev-handoff-notes
 description: >-
-  Write or update dev handoff notes — a designer's repository of everything a
-  developer needs to build the real product from a high-fidelity prototype:
-  interactions, states, accessibility, logic and rules, UX intent, data,
-  edge cases, and what's mocked vs. real — written in developer-native language
-  so nothing that lived in your head (or only became real in the prototype) is
-  lost in the handoff. The doc is also ideal to hand to an AI coding assistant
-  as build context: prototype plus this doc is what an agent needs to build the
-  real thing. Use whenever someone wants to document how a prototype works for
-  engineering, capture build-critical detail or edge cases before a design→dev
-  handoff, or create/update a DEV-HANDOFF-NOTES.md. Works for any prototype, any
-  stack (React, single-file HTML, Framer, SwiftUI, v0…), and any or no design
-  system. Trigger even on just "write up how this works for the devs", "handoff
-  notes", "spec this for engineering", "the handoff", or "capture the details so
-  they don't get lost".
+  Write or update a dev handoff doc — the annotation layer a designer hands
+  engineering alongside a high-fidelity prototype. It states what EXISTS: the
+  rules, states, edge cases and exact copy that aren't obvious from clicking
+  through the prototype, what is mocked, and what is out of scope. It carries
+  no rationale, no history, no attributions and no code internals. Use whenever someone wants to document a
+  prototype for engineering ("write the handoff", "dev handoff notes", "update
+  the handoff doc", "what does eng need to know about this").
 ---
 
 # Dev Handoff Notes
 
 ## What this is
 
-A **dev handoff note** is a designer's repository of everything a developer needs to build the real product from a high-fidelity prototype — the interactions, states, accessibility, logic, UX intent, data, and edge cases that the prototype shows or implies but doesn't spell out. The developer builds from two things together: the **prototype** (what it should look like and how it behaves) and these **notes** (the details, logic, and intent behind it). You write it when you hand a prototype to engineering, so the knowledge in your head doesn't evaporate in the handoff.
+A dev handoff is the **annotation layer** for a prototype — the notes you would pin to the design file to say "this is a rule", "this is the edge case", "this string is exact", "this part is fake". It is read alongside the prototype by the developer building the real feature in the production codebase.
 
-It serves two readers:
+Two readers: the **developer**, and the developer's **AI coding assistant**, which gets the prototype plus this doc as build context.
 
-- **A developer**, who builds the real product with the prototype open beside them — it speaks their language (real values, component names, behavior, rules), so they aren't reverse-engineering your intent.
-- **The developer's AI coding assistant.** The prototype plus this doc is exactly the context an AI needs to build the real product; a dev can drop both straight into their coding agent.
+**The bar: a developer who has never spoken to you can build the feature from the prototype and this doc, and nothing they build contradicts a decision you made.**
 
-The bar: **capture enough, precisely enough, that someone who wasn't in your head — human or AI — can build the real product from the prototype without guessing.**
+## What this is not
 
-## It's a spec, not a changelog
+- **Not a design log.** The log holds history, alternatives, critique, who said what and why. None of that comes here. If a sentence explains *why*, it belongs in the log.
+- **Not a rationale or alignment doc.** It doesn't justify decisions to stakeholders. It states them.
+- **Not a spec of the prototype's code.** No file paths, selectors, component names, store shapes or repo invariants.
+- **Not a description of the visible.** If it can be learned by clicking around, it isn't in here.
 
-The handoff is the **opposite of a design log**. A design log is chronological decision-history — *why* things were done, what was tried and rejected, why a value is what it is. The handoff is a snapshot of *what is* — *how* to build it, right now. That distinction governs everything.
+## The rules
 
-Because it's a spec, you **describe the present and keep it true**. When the prototype changes, you rewrite the stale parts — you don't append. A handoff that carries history, contradictions, or stale claims is worse than none: a developer will build the wrong thing and trust it. If you catch yourself writing "we changed X to Y" or "previously this did…", that belongs in a log — state only the current behavior here.
-
-## What to capture
-
-Completeness is the whole point — the details you *don't* write down are the ones that get lost. For each surface, cover whichever apply:
-
-- **Interactions & behavior** — what happens, in what order, on what trigger.
-- **Every state** — default, hover, active/selected, focus, empty, loading/skeleton, error, partial, disabled, read-only. Design frames usually show the happy path; the other states are where builds drift. Enumerate them.
-- **Logic & rules** — what governs what: visibility conditions, counts, sort/filter order, validation, derived values. The "this shows only when that is true."
-- **Data & state model** — the shape it expects, where state lives, what persists and how, the key entities and their relationships. Use the real field/key/entity names, not paraphrases.
-- **Mocked vs. real** — what's **fake** (stubs, seed data, localStorage, canned responses, in-memory state, non-functional controls) — always paired with **what the real thing would be** (which API, endpoint, service, or auth plugs in here). This is the single most valuable section: it draws the line between where the prototype ends and production begins.
-- **Accessibility** — roles, keyboard paths, focus management, ARIA. If it follows a known pattern (a WAI-ARIA tree, a focus-trapped modal), name the pattern so it can be looked up.
-- **Responsive** — what changes at which breakpoints, and what is explicitly *not* handled.
-- **Copy that matters** — user-visible strings that are deliberate/spec (not placeholder), plus any copy rules to preserve.
-- **Edge cases & gotchas** — smallest/largest data, overflow, truncation, races, and any dead-end you hit while building (so the dev doesn't re-hit it).
-- **Prototype-only bits to strip** — dev toggles, mode switches, seed/reset utilities, debug output, hardcoded users, mock auth. Anything that must **not** ship. Flag it explicitly, even if it seems obvious — these are the things that quietly ship by accident.
-- **The why** — the intent behind a choice, where a dev would otherwise guess wrong. This is the one thing only you know; code doesn't carry it. Keep it to intent that constrains the build, not decision-history.
-
-## What makes it good
-
-- **Developer-native language.** Name the real thing — the function, component, selector, route, or state that implements the behavior — so a dev (or their AI) can find it. Anchor to the prototype's actual code, whatever the stack.
-- **Exact values, not vibes.** `#4645BB`, `py-[7px]`, `min-height: 96px`, `300ms cubic-bezier(…)`. "An appropriate hover state" is unbuildable; a value is. A value lost is work lost.
-- **Flag every fake, with the fix.** Prototypes lie — stubs that just toast, in-memory state, placeholder names. Each is a landmine for a dev who assumes it's real. Call it out and say how to wire it.
-- **Map to the design system, if there is one.** List each UI element and the component it should reuse, so engineering reuses instead of rebuilding. No design system? Skip it entirely — don't invent one.
-- **Stay current and honest.** Keep a "Last updated" line; when the doc trails the prototype, add a **Known lag** note saying exactly what's stale rather than silently misdescribing it. A doc the dev can't trust is worse than none.
+1. **State what exists.** Every bullet is a rule, a behaviour, a state, an edge case, or an exact string. Nothing else.
+2. **No rationale.** No "because", "so that", "in order to", no data points, no justification clauses. `The default window is Last 30 days.` — full stop.
+3. **No history.** Never "replaced", "used to", "tried and reverted", "killed", "decided on <date>", "v1 → v2". Present tense only. The one comparison allowed is against **today's shipping product** when a delta is the fact itself (`Today's search misses partial words entirely.`).
+4. **No attributions, no quotes from people.** No `(Name: "…")`, no names, no meeting references.
+5. **The prototype is the source of truth and is never "wrong".** Never write "don't copy the prototype here". If the prototype contradicts a decision, that is a prototype bug — report it to the designer to fix, then update the doc. Parts outside the project's scope that aren't built go in **Not built in this prototype**, stated as absent.
+6. **No code internals.** No paths, selectors, component or function names, hex values. Numbers appear only where the number *is* the rule — a breakpoint, a minimum touch target, a delay, a count.
+7. **Only what isn't obvious.** Layout, hierarchy, panel widths, what sits left or right — visible, leave it out. Which click does what, what happens at zero, what a toggle's tooltip says, what a conflict looks like — in.
+8. **Exact strings, verbatim.** Every user-visible string the developer must reproduce — labels, tooltips, toasts, empty states, confirms, banners — quoted exactly. Variants written as patterns: `` `<Active | Paused>, <expires <date> | never expires>` ``.
+9. **One word per concept**, used everywhere. If the product calls it a *schedule*, it is never also a *window*, a *period* or *timing*.
+10. **Logic before surfaces.** The model, precedence, conflict and permission rules come first; screens follow.
+11. **Open questions are rare and are product questions.** Mark them inline as `⟨confirm: …⟩`. A question the *designer* can answer isn't a ⟨confirm⟩ — it's an inconsistency in the prototype to fix. A WIP project may carry a few; a finished one carries none.
 
 ## Structure
 
 ```
-# Dev Handoff Notes — <Prototype>
+# <Project> — dev handoff notes
 
-> [Preamble] What the prototype is (stack + one-liner), the goal, the
-> load-bearing architectural facts, and a **Last updated:** line (+ any
-> **Known lag** flag).
+> **How to read this.** The prototype shows the behaviour: <URL>. The repo has
+> the styles and code. This doc is the annotation layer: the rules, states and
+> edge cases that aren't obvious from clicking through, what is mocked, and what
+> is not built. Rationale is not in here.
+>
+> **Scope.** <What this covers. Which routes/areas in the repo belong to other
+> work and should be ignored.>
+>
+> **Last updated:** <date>.        ← date only, never a changelog
 
-## Contents            ← TOC linking every section
-## Overview & architecture   ← file/route layout; how state + rendering work
-## <Feature section>   ← one per surface. Repeat.
-...
-## Mocked vs. real           ← each fake → what plugs in for production
-## Component inventory       ← element → design-system component (omit if no DS)
-## Running / building        ← how to run it locally
-## Strip before shipping     ← prototype-only toggles, seeds, mock auth
-## Cross-cutting invariants  ← numbered "don't break these" rules that hold everywhere
+## At a glance                       ← table: Area | What exists. One line per section.
+
+## <The model / core logic>          ← objects, targets, precedence, permissions
+## <Rules that span surfaces>        ← scheduling, conflicts, suggested states…
+
+## <Surface 1>                       ← plain bullets; states, edge cases, exact copy
+**Mocked:** <one line, only if something on this surface is simulated>
+## <Surface 2> …
+
+## Responsive                        ← table: Breakpoint | Change; then rules
+## Motion rules                      ← policies, not values
+## Accessibility                     ← what exists and is required in production
+## Not built in this prototype       ← out of scope; absent, not simulated
+## What the prototype fakes          ← simulated data and behaviour, consolidated
 ```
 
-**A feature section** opens with a **`File:`** line naming the entry point (the file / component / function / selector that implements it), then dense bullets covering the dimensions above.
+Per-surface bullets carry, as relevant: what each control does · every state (default, empty, zero, error, blocked) and its copy · edge cases (what happens at one, at many, at none) · exact strings · what's mocked on that surface.
 
-**Cross-cutting invariants** is the highest-leverage section — the rules that hold everywhere and must not break (e.g. "all actions are stubs — wire them"; "one row component across every list — keep them identical"). It's how a dev avoids quietly breaking a load-bearing assumption.
+**Not built** vs **Fakes**: *not built* is absent (no payment routing, no import flow); *fakes* is present but simulated (seeded analytics, a browser-storage store, a scripted customer). Keep them separate.
 
 ## Voice
 
-Terse, present-tense (it describes how the prototype *behaves today*), dense with specifics, no marketing.
+Terse. Present tense. Bold the rule, then the specifics.
 
 **Good:**
-> **Select-all** (`#saCbx`, `role="checkbox"`): tri-state from the filtered set — `aria-checked` `false` / `mixed` / `true`. Clicking `mixed` clears all (Gmail behavior). Selects the *whole filtered set*, not just the loaded page.
+> - **Conflict = two codes on the same product with overlapping schedules.** Collection-vs-product is never a conflict. The picker refuses the second code (toast names the first); the detail page shows the banner and marks the rows.
+> - **`Modified` = the last edit to the code itself.** Applying it to products, changing its schedule and redemptions do not update it.
 
 **Not:**
-> There's a select-all checkbox at the top that selects everything. *(No selector, no states, no rule — unbuildable.)*
+> - The conflict rule is deliberately narrow because precedence already resolves collection-vs-product *(rationale)*
+> - `Modified` replaced `Last redeemed`, which was customer activity *(history)*
+> - Per the 08-25 review, stacking warnings were removed *(attribution + history)*
+> - `CodesTable.tsx` sorts by `updatedAt` desc *(code internals)*
+> - The panel is 400px wide, controls left, preview right *(visible)*
 
-Two failure modes to avoid, both from the wrong document living inside this one:
+## How it works
 
-- Reads as **"we decided to…"** → that's a design log. State what *is*, not why you got there.
-- Reads as **"handles the various states"** → which states, doing what? Name each one and what it does.
+**1. Find the doc.** `DEV-HANDOFF-NOTES.md` at the repo root, then `docs/`, then the working directory. Update in place — never a second file beside it. If none exists, create it at the repo root. Get the prototype URL from the designer if it isn't in the repo.
 
-## Feeding it to an AI builder
+**2. Read the prototype — the code, not your memory.** Even when you built it this session. For each surface: every user-visible string (labels, tooltips, toasts, empty states, confirms, banners, placeholders), every state and its trigger, defaults, validation, what each control writes. Then the cross-cutting facts: persistence keys (→ Fakes), anything simulated or seeded (→ Fakes), routes and features that belong to other work (→ Scope), breakpoints and what changes at each (→ Responsive), animation names and reduced-motion handling (→ Motion), ARIA roles / focus handling / disabled vs unavailable (→ Accessibility). Check for loading and error states explicitly; if none exist, say nothing rather than invent them. Extract strings per file with two patterns — bare text lines starting with a capital, and quoted literals of six characters or more — and read anything ambiguous in context.
 
-A dev can hand this file to their AI coding assistant as build context, so keep it **self-contained and unambiguous**: real names/paths, exact values, states and rules spelled out, fakes flagged. Anything left vague, the model will invent — the same precision that helps a human helps the AI. This is the use case worth optimizing for: "prototype + this doc → an agent builds the real thing" is likely why you're writing it.
+**3. Write** to the structure above. Logic first. Surfaces in the order a user meets them. Strings verbatim.
 
-## Writing a new note
+**4. Self-check** (below). Fix everything it catches before delivering.
 
-The prototype is the source of truth — read it before you write. Even when the prototype was built in this very conversation, don't write from memory: open the entry points (the files, components, routes, or selectors each feature's `File:` line will name) and pull the real values, the state shape, which controls are wired and which are stubbed. Then ask the designer only for what the code can't reveal — the intent behind a choice, what's deliberately unhandled, what production thing each mock stands in for. A note written from memory instead of the code is exactly how you get the vague, unanchored spec this skill exists to prevent.
+**5. Report.** Tell the designer what went in, and — separately, not in the doc — every inconsistency you found in the prototype (two labels for one concept, a menu item that contradicts the rest, a stale string). Those are prototype fixes for the designer, not annotations.
 
-Put a new doc at the repo root as `DEV-HANDOFF-NOTES.md` (or beside the prototype if there's no repo root), so the search order below finds it next time.
+## Updating an existing doc
 
-## Updating an existing note
+Reconcile, never append. The prototype changed; find every bullet the change touches and rewrite it to the new truth. Never leave the old description next to the new one — one truth per item. Delete what's gone. Bump **Last updated** to the date, nothing more. When a prototype fix resolves a ⟨confirm⟩, delete the marker. If little changed, make the minimal edit; don't manufacture churn.
 
-Most handoff work is updates, and the discipline is **reconcile, never append** — because this is a spec, not a record. The running prototype is the source of truth; when the doc and the code disagree, the code wins and the doc gets corrected.
+## Self-check before delivering
 
-Before writing a fresh doc, look for an existing one — `DEV-HANDOFF-NOTES.md` at the repo root, then a `docs/` folder, then the working directory. When you find one, update it in place rather than writing a second file beside it — two handoffs for one prototype is the exact contradiction this doc exists to prevent. If two plausible docs exist (say a broad `HANDOFF.md` and a `DEV-HANDOFF-NOTES.md`), confirm which is the developer handoff before touching it.
+Run these on the finished file. Every hit is fixed, or sits inside quoted UI copy.
 
-When you update, be **surgical**: touch only the sections your change affects, match the existing structure and voice, and never leave an old description sitting next to the new one — one current truth per item. Rewrite stale parts, add missing ones, remove what's gone. Then **bump "Last updated,"** add a **Known lag** flag if you couldn't fully reconcile this pass, and keep the invariants list current (a new invariant is often the most important thing a change introduces). If little actually moved, say so and make a minimal update rather than manufacturing churn.
+- **Attributions / history markers:** `grep -nE '\([A-Z][a-z]+(, [^)]*)?: \*?"|\b([Ss]aid|[Aa]greed|[Pp]ointed out|[Aa]ccording to|[Aa]sked for)\b|\b[Pp]er [A-Z][a-z]+|\b20[0-9]{2}-[0-9]{2}-[0-9]{2}\b|\b([Tt]he|[Dd]esign|[Ww]eekly|[Tt]hat|[Ll]ast) (review|critique|crit|meeting|1:1|sync)\b|\b[Tt]ranscript\b'` → 0 hits outside **Last updated** and quoted UI copy.
+- **History:** `grep -nwE "replaced|used to|killed|reverted|tried|removed|originally|previously|no longer|decided"` → 0 hits (outside quoted UI copy).
+- **Rationale:** `grep -nwE "because|so that|in order to|the reason|rationale|would|which is why"` → 0 hits.
+- **Prototype-blame:** `grep -n "wrong\|Don't copy\|incorrect"` → 0 hits.
+- **Code internals:** `grep -nE "\.tsx|\.ts\b|\.css|#[0-9a-fA-F]{6}|className|component"` → 0 hits.
+- **Terminology:** pick the term for each concept; grep the alternatives → 0 hits outside quoted copy.
+- **Strings:** every label, tooltip, toast, confirm and empty state the doc mentions is quoted verbatim and matches the code.
+- **⟨confirm⟩:** each one is a product question, not a prototype inconsistency. Count them; a finished project has zero.
+- **Visible-only bullets:** for each bullet ask "could the developer see this by clicking?" If yes, cut it.
+- **Tables:** consistent column counts; **Last updated** is a date only.
 
-For a large change, walk the sections a few at a time rather than dumping a full rewrite, so it stays reviewable.
+## Examples
 
-## Adapting to your setup
+Mirror whatever sits in `examples/` beside this skill — structure, section names, voice, level of detail. If more than one example is there, prefer the most recent. Drop one of your own finished handoffs in.
 
-Works for any prototype, any stack, any (or no) design system — it captures whatever is actually in the prototype, so your own components, tokens, and conventions come through on their own. A single HTML file, a React app, a Framer or v0 export, SwiftUI — the shape is the same; only the "File:" anchors change.
+## Edge cases
 
-**Match your house style with an example.** Before writing, check for an `examples/` folder beside this skill; if one's there, mirror its structure, section names, and level of detail. That's the customization hook — a designer drops one of their own past handoffs into `examples/`, and every future note comes out shaped like theirs, no skill edits needed.
-
-## Optional: Figma
-
-If the prototype traces to a Figma source, you can cite node IDs (`Count badge 24525:10363`) so a dev can jump to the exact frame. Optional traceability — not required, and irrelevant if there's no Figma.
+- **The project is WIP.** The doc will carry a few ⟨confirm⟩ markers and the prototype may have inconsistencies. Put the questions in the doc; put the inconsistencies in your report to the designer. Neither gets rationalised in the doc.
+- **The prototype contains other work** (a vendored page, another project's routes, demo-only controls). Name them in **Scope** as out of scope, and list demo-only controls under **Fakes**. Don't document them.
+- **A behaviour has no rule yet** (the prototype does something incidental). Ask the designer whether it's a rule. If it isn't, leave it out.
+- **The designer wants to write it themselves.** Give them the verified facts and strings from step 2 and step back.
+- **Someone asks for the "why".** Point them to the design log. If a `design-log` skill exists, that is where the material goes.
